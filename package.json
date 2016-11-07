@@ -1,0 +1,19 @@
+{
+  "name": "homework3",
+  "version": "1.0.0",
+  "description": "Homework 3 Express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Michaela07313/HomeWork3---Express.git"
+  },
+  "author": "ML",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Michaela07313/HomeWork3---Express/issues"
+  },
+  "homepage": "https://github.com/Michaela07313/HomeWork3---Express#readme"
+}
