@@ -6,14 +6,11 @@
   "scripts": {
     "start": "node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Michaela07313/HomeWork3---Express.git"
-  },
   "author": "ML",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Michaela07313/HomeWork3---Express/issues"
-  },
-  "homepage": "https://github.com/Michaela07313/HomeWork3---Express#readme"
+  "dependencies": {
+    "express": "4.14.0",
+    "mongoose": "4.6.6",
+    "pug": "2.0.0-beta6"
+  }
 }
