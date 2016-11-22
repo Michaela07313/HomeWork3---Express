@@ -1,6 +1,9 @@
 let mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
+// if we want just to call the model
+// require('../data//User')
+
 module.exports = (config) => {
   mongoose.connect(config.db)
 
@@ -17,4 +20,6 @@ module.exports = (config) => {
   dbConnect.on('error', err => {
     console.log(err)
   })
+  // cal seedAdminUser function from data folder where is the model Users
+  require('../data//User').seedAdminUser()
 }
