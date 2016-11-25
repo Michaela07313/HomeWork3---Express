@@ -12,6 +12,17 @@ let userSchema = mongoose.Schema({
   roles: [String]
 })
 
+userSchema.method({
+  authenticate: (password) => {
+    let inputHashedPassword = encryption.generateHashedPassword(this.salt, password)
+    if (inputHashedPassword === this.hashedPassword) {
+      return true
+    } else {
+      return false
+    }
+  }
+})
+
 let User = mongoose.model('User', userSchema)
 
 module.exports.seedAdminUser = () => {

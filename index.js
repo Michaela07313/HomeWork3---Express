@@ -15,8 +15,11 @@ require('./server/config/database')(config)
 // call the settings for express
 require('./server/config/express')(config, app)
 
-// cal all routes
+// call all routes
 require('./server/config/routes')(app)
+
+// call passport to authenticate the user
+require('./server/config/passport')()
 
 app.listen(config.port)
 console.log('Express is ready!')

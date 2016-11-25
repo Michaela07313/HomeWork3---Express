@@ -9,4 +9,11 @@ html
         a(href="/") Home
       li
         a(href="/about") About
+      if (currentUser)
+        span= currentUser.username
+      else
+        li
+          a(href="/users/register") Registration
+    if (globalError)
+      h3= globalError
     block main-content
