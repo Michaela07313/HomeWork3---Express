@@ -1,3 +1,25 @@
 extends ../shared/layout
 block main-content
  h1 Create an article
+  form(method="post" action="/articles/upload")
+    label(for="title") Title
+    br
+    input(type="text" name="title" id="title" value=title)
+    br
+    label(for="description") Description
+    br
+    input(type="text" name="description" id="description")
+    br
+    label(for="content") Write in your article
+    br
+    input(type="text" name="content" id="content")
+    br
+    label(for="date") Date
+    br
+    input(type="text" name="date" id="date")
+    br
+    label(for="author") Enter your name
+    br
+    input(type="text" name="author" id="author")
+    br
+    input(type="submit" value="Upload your article")

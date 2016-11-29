@@ -25,10 +25,10 @@ userSchema.method({
 
 let User = mongoose.model('User', userSchema)
 
-User
+/* User
   .find({})
   .exec()
-  .then(user => console.log(user))
+  .then(user => console.log(user)) */
 
 
 

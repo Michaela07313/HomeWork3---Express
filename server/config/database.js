@@ -21,5 +21,6 @@ module.exports = (config) => {
     console.log(err)
   })
   // cal seedAdminUser function from data folder where is the model Users
-  require('../data//User').seedAdminUser()
+  require('../data/User').seedAdminUser()
+  require('../data/Article')
 }

@@ -24,6 +24,10 @@ module.exports = (app) => {
 
   app.get('/articles/create', auth.isInRole('Admin'), auth.isAuthenticated, controllers.articles.create)
 
+  app.post('/articles/upload', auth.isInRole('Admin'), controllers.articles.upload)
+
+  app.get('/articles/review', controllers.articles.review)
+
 
   app.all('*', (req, res) => {
     res.status(404)

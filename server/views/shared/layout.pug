@@ -3,20 +3,22 @@ html
   head
     title Global layout
     link(href="/css/site.css" rel="stylesheet")
-  body
-    ul
+  body.container
+    ul.menu
       li 
         a(href="/") Home
       li
         a(href="/about") About
       li
         a(href="/articles/create") Create an article
+      li
+        a(href="/articles/review") Review all articles
       if (currentUser)
-        li
-          span= currentUser.username
-        li 
-          form#logout-form(method="post" action="/users/logout")
-            a(href="javascript:document.getElementById('logout-form').submit()") Log out
+        br
+        span= currentUser.username
+        br 
+        form#logout-form(method="post" action="/users/logout")
+          a(href="javascript:document.getElementById('logout-form').submit()") Log out
       else
         li
           a(href="/users/register") Registration

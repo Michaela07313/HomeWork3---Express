@@ -1,0 +1,13 @@
+extends ../shared/layout
+block main-content
+ h1 Review all articles
+   each article in data
+    div #{article.title}
+    br
+    div #{article.description}
+    br
+    div #{article.content}
+    br
+    div #{article.date}
+    br
+    div #{article.author}
