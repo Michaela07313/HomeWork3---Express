@@ -13,7 +13,7 @@ let userSchema = mongoose.Schema({
 })
 
 userSchema.method({
-  authenticate: (password) => {
+  authenticate: function (password) {
     let inputHashedPassword = encryption.generateHashedPassword(this.salt, password)
     if (inputHashedPassword === this.hashedPassword) {
       return true
@@ -24,6 +24,13 @@ userSchema.method({
 })
 
 let User = mongoose.model('User', userSchema)
+
+User
+  .find({})
+  .exec()
+  .then(user => console.log(user))
+
+
 
 module.exports.seedAdminUser = () => {
   User.find({}).then(users => {
