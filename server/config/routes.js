@@ -26,7 +26,7 @@ module.exports = (app) => {
 
   app.post('/articles/upload', auth.isInRole('Admin'), controllers.articles.upload)
 
-  app.get('/articles/review', controllers.articles.review)
+  app.get('/articles/review', auth.isAuthenticated, controllers.articles.review)
 
 
   app.all('*', (req, res) => {

@@ -1,13 +1,18 @@
 extends ../shared/layout
 block main-content
- h1 Review all articles
-   each article in data
-    div #{article.title}
-    br
-    div #{article.description}
-    br
-    div #{article.content}
-    br
-    div #{article.date}
-    br
-    div #{article.author}
+  head
+    title Review all articles
+    link(rel="stylesheet" href="/css/layout.css")
+  body
+    .wrapper.row2
+      #container.clear
+        section#services.clear
+          article.one_third
+            each article in data
+             h3 #{article.title}
+             h2 #{article.description}
+             h2 #{article.content}
+             h2 #{article.date}
+             h2 #{article.author}
+            footer.more
+              a(href="#") Read More » 
