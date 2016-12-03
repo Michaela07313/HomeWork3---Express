@@ -7,27 +7,31 @@ module.exports = {
   },
   create: (req, res) => {
     let user = req.body
+    if (user.username && user.firstName && user.lastName && user.password && user.confirmPassword) {
+      if (user.password !== user.confirmPassword) {
+        user.globalError = 'Your passwords do not match.'
+        res.render('users/register', user)
+      } else {
+        user.salt = encryption.generateSalt()
+        user.hashedPassword = encryption.generateHashedPassword(user.salt, user.password)
 
-    if (user.password !== user.confirmPassword) {
-      user.globalError = 'Your passwords do not match.'
-      res.render('users/register', user)
-    } else {
-      user.salt = encryption.generateSalt()
-      user.hashedPassword = encryption.generateHashedPassword(user.salt, user.password)
+        User
+          .create(user)
+          .then(user => {
+            req.logIn(user, (err, user) => {
+              if (err) {
+                res.render('users/register', { globalError: 'Ooops 500' })
+                return
+              }
 
-      User
-        .create(user)
-        .then(user => {
-          req.logIn(user, (err, user) => {
-            if (err) {
-              res.render('users/register', { globalError: 'Ooops 500' })
-              return
-            }
-
-            res.redirect('/')
+              res.redirect('/')
+            })
           })
-        })
-        .catch(console.log)
+          .catch(console.log)
+      }
+    } else {
+      user.globalError = 'Enter all fields'
+      res.render('users/register', user)
     }
   },
   login: (req, res) => {
@@ -37,20 +41,20 @@ module.exports = {
     let inputUser = req.body
 
     User.findOne({ username: inputUser.username })
-    .then(user => {
-      if (!user.authenticate(inputUser.password)) {
-        res.render('users/login', { globalError: 'Invalid username or password' })
-      } else {
-        req.logIn(user, (err, user) => {
-          if (err) {
-            res.render('users/login', { globalError: 'Ooops 500' })
-            return
-          }
+      .then(user => {
+        if (!user || !user.authenticate(inputUser.password)) {
+          res.render('users/login', { globalError: 'Invalid username or password' })
+        } else {
+          req.logIn(user, (err, user) => {
+            if (err) {
+              res.render('users/login', { globalError: 'Ooops 500' })
+              return
+            }
 
-          res.redirect('/')
-        })
-      }
-    })
+            res.redirect('/')
+          })
+        }
+      })
   },
   logout: (req, res) => {
     req.logout()

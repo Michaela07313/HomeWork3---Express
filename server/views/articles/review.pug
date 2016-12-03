@@ -2,12 +2,11 @@ extends ../shared/layout
 block main-content
   head
     title Review all articles
-    link(rel="stylesheet" href="/css/layout.css")
-  body
+  body 
     .wrapper.row2
       #container.clear
         section#services.clear
-          each article in data
+          each article in articles
             article.one_third
               h3 #{article.title} 
               h2 #{article.description}
@@ -15,4 +14,7 @@ block main-content
               footer.more
                 a(href="/articles/details/" + article._id) Read More »
             br
-                
+        ul.pagination
+          - for (var x = 0; x < Math.ceil(pages); x++)
+            li(class= (x == page) ? 'active' : '')
+              a(href='?page=' + x)=(x+1)
