@@ -1,5 +1,6 @@
 const controllers = require('../controllers')
 const auth = require('../config/auth')
+let Article = require('mongoose').model('Article')
 
 module.exports = (app) => {
   // get request
@@ -27,6 +28,10 @@ module.exports = (app) => {
   app.post('/articles/upload', auth.isInRole('Admin'), controllers.articles.upload)
 
   app.get('/articles/review', auth.isAuthenticated, controllers.articles.review)
+
+  app.get('/articles/details/:id', auth.isAuthenticated, controllers.articles.details)
+
+
 
 
   app.all('*', (req, res) => {

@@ -1,0 +1,16 @@
+extends ../shared/layout
+block main-content
+  head
+    title Article details
+    link(rel="stylesheet" href="/css/layout.css")
+  body
+    .wrapper.row2
+      #container.clear
+        section#services.clear
+          each art in article
+            article.one_third
+              h2 #{art.title}
+              h3 #{art.description}
+              h3 #{art.content}
+              h3 #{art.author}
+                

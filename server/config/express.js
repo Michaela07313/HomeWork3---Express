@@ -29,4 +29,6 @@ module.exports = (config, app) => {
     }
     next()
   })
+
+  app.locals.moment = require('moment')
 }

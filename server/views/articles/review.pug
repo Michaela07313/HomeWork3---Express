@@ -7,12 +7,12 @@ block main-content
     .wrapper.row2
       #container.clear
         section#services.clear
-          article.one_third
-            each article in data
-             h3 #{article.title}
-             h2 #{article.description}
-             h2 #{article.content}
-             h2 #{article.date}
-             h2 #{article.author}
-            footer.more
-              a(href="#") Read More » 
+          each article in data
+            article.one_third
+              h3 #{article.title} 
+              h2 #{article.description}
+              h2 #{moment(article.date).format("YYYY/MM/DD")}
+              footer.more
+                a(href="/articles/details/" + article._id) Read More »
+            br
+                
