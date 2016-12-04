@@ -39,16 +39,50 @@ module.exports = {
       })
   },
   details: (req, res, next) => {
-    let articleID = req.param('id')
+    let articleID = req.params.id
     let query = Article.findById(articleID)
     Article.find(query, function (err, article) {
       if (err) return next(err)
-      console.log('Results: ' + article)
       query.exec(function (err, get) {
         if (err) return next(err)
         if (!get) return next()
         res.render('articles/details', { get: get, article: article })
       })
+    })
+  },
+  edit: (req, res, next) => {
+    let articleID = req.params.id
+    let query = Article.findById(articleID)
+
+    Article.find(query, function (err, articleSelected) {
+      console.log('author: ', articleSelected[0].author, res.locals.currentUser.username)
+      if (articleSelected[0].author !== res.locals.currentUser.username) {
+        res.redirect('/articles/details/' + articleID)
+        return
+      }
+      if (err) return next(err)
+      query.exec(function (err, get) {
+        if (err) return next(err)
+        if (!get) return next()
+        res.render('articles/edit', { get: get, articles: articleSelected })
+      })
+    })
+  },
+  update: (req, res, next) => {
+    let articleID = req.query.id
+    let updatedArticle = req.body
+
+    Article.findByIdAndUpdate(articleID, {
+      $set: {
+        title: updatedArticle.title,
+        description: updatedArticle.description,
+        content: updatedArticle.content
+      },
+      new: true
+    })
+    .exec()
+    .then(updatedArticle => {
+      res.redirect('/')
     })
   }
 }

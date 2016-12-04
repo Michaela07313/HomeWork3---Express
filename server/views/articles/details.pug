@@ -8,8 +8,14 @@ block main-content
         section#services.clear
           each art in article
             article.one_third
-              h2 #{art.title}
-              h3 #{art.description}
-              h3 #{art.content}
-              h3 #{art.author}
+              h3 #{art.title}
+              h4 #{art.description}
+              h4 #{art.content}
+              h4 #{art.author}
+              if (article.updatedDate)
+                h4 #{moment(art.updatedDate).format("YYYY/MM/DD")}
+              else
+                h4 #{moment(art.date).format("YYYY/MM/DD")}        
+              footer.more
+                a(href="/articles/edit/" + art._id) Edit »
                 

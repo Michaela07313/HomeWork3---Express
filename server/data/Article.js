@@ -7,6 +7,7 @@ let articleSchema = mongoose.Schema({
   description: { type: String, required: requiredValidationMessage },
   content: { type: String, required: requiredValidationMessage },
   date: { type: Date, default: Date.now },
+  updatedDate: { type: Date },
   author: { type: String, required: requiredValidationMessage }
 })
 

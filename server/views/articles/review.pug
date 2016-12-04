@@ -11,6 +11,8 @@ block main-content
               h3 #{article.title} 
               h2 #{article.description}
               h2 #{moment(article.date).format("YYYY/MM/DD")}
+              if (article.updatedDate)
+                h2 #{moment(article.updatedDate).format("YYYY/MM/DD")}
               footer.more
                 a(href="/articles/details/" + article._id) Read More »
             br

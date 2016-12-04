@@ -1,6 +1,5 @@
 const controllers = require('../controllers')
 const auth = require('../config/auth')
-let Article = require('mongoose').model('Article')
 
 module.exports = (app) => {
   // get request
@@ -23,13 +22,17 @@ module.exports = (app) => {
 
   app.post('/users/logout', controllers.users.logout)
 
-  app.get('/articles/create', auth.isInRole('Admin'), auth.isAuthenticated, controllers.articles.create)
+  app.get('/articles/create', auth.isAuthenticated, controllers.articles.create)
 
-  app.post('/articles/upload', auth.isInRole('Admin'), controllers.articles.upload)
+  app.post('/articles/upload', auth.isAuthenticated, controllers.articles.upload)
 
-  app.get('/articles/review', auth.isAuthenticated, controllers.articles.review)
+  app.get('/articles/review', controllers.articles.review)
 
   app.get('/articles/details/:id', auth.isAuthenticated, controllers.articles.details)
+
+  app.get('/articles/edit/:id', auth.isAuthenticated, auth.isInRole('Admin'), controllers.articles.edit)
+
+  app.post('/articles/update', auth.isAuthenticated, auth.isInRole('Admin'), controllers.articles.update)
 
 
 
