@@ -1,4 +1,5 @@
 let Article = require('mongoose').model('Article')
+const auth = require('../config/auth')
 
 module.exports = {
   create: (req, res) => {
@@ -55,16 +56,16 @@ module.exports = {
     let query = Article.findById(articleID)
 
     Article.find(query, function (err, articleSelected) {
-      console.log('author: ', articleSelected[0].author, res.locals.currentUser.username)
-      if (articleSelected[0].author !== res.locals.currentUser.username) {
-        res.redirect('/articles/details/' + articleID)
-        return
-      }
       if (err) return next(err)
       query.exec(function (err, get) {
         if (err) return next(err)
         if (!get) return next()
-        res.render('articles/edit', { get: get, articles: articleSelected })
+        if (articleSelected[0].author === res.locals.currentUser.username || auth.isAdmin(req, res)) {
+          res.render('articles/edit', { get: get, articles: articleSelected })
+        } else {
+          res.redirect('/articles/details/' + articleID)
+          return
+        }
       })
     })
   },

@@ -30,7 +30,7 @@ module.exports = (app) => {
 
   app.get('/articles/details/:id', auth.isAuthenticated, controllers.articles.details)
 
-  app.get('/articles/edit/:id', auth.isAuthenticated, auth.isInRole('Admin'), controllers.articles.edit)
+  app.get('/articles/edit/:id', auth.isAuthenticated, controllers.articles.edit)
 
   app.post('/articles/update', auth.isAuthenticated, auth.isInRole('Admin'), controllers.articles.update)
 

@@ -14,5 +14,12 @@ module.exports = {
         res.redirect('/users/login')
       }
     }
+  },
+  isAdmin: (req, res) => {
+    if (req.user && req.user.roles.indexOf('Admin') > -1) {
+      return true
+    } else {
+      return false
+    }
   }
 }
