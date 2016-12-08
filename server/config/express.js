@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const passport = require('passport')
+const fileUpload = require('express-fileupload')
+
 
 module.exports = (config, app) => {
   // enable pug
@@ -26,9 +28,10 @@ module.exports = (config, app) => {
   app.use((req, res, next) => {
     if (req.user) {
       res.locals.currentUser = req.user
+      // current ID session: console.log('current session:', req.sessionID)
     }
     next()
   })
-
+  app.use(fileUpload())
   app.locals.moment = require('moment')
 }

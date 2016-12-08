@@ -5,14 +5,53 @@ module.exports = {
   create: (req, res) => {
     res.render('articles/create')
   },
-  upload: (req, res) => {
-    let createdArticle = req.body
+  // upload: (req, res, next) => {
+  //   let createdArticle = req.body
 
-    Article
-      .create(createdArticle)
-      .then(createdArticle => {
-        res.redirect('/')
-      })
+  //   Article
+  //     .create(createdArticle)
+  //     .then(createdArticle => {
+  //       res.redirect('articles/create')
+  //     })
+  // },
+  imgupload: (req, res, next) => {
+    let image
+    let createdArticle = req.body
+    if (!req.files) {
+      res.render('articles/create')
+      return
+    }
+    console.log('createdArticle: ', createdArticle)
+    console.log('req.files', req.files)
+    image = req.files.image
+    console.log('image: ', image)
+    createdArticle.image = req.files.image.name
+    console.log('newcreatedArticle: ', createdArticle)
+
+    if (createdArticle.title && createdArticle.description && createdArticle.content && createdArticle.author) {
+      if (createdArticle.image !== '') {
+        image.mv('./public/images/' + req.files.image.name, (err) => {
+          if (err) {
+            res.status(500).send(err)
+          } else {
+            Article
+            .create(createdArticle)
+            .then(createdArticle => {
+              res.redirect('/')
+            })
+          }
+        })
+      } else {
+        Article
+        .create(createdArticle)
+        .then(createdArticle => {
+          res.redirect('/')
+        })
+      }
+    } else {
+      createdArticle.globalError = 'Please enter all fields.'
+      res.render('articles/create', createdArticle)
+    }
   },
   review: (req, res) => {
     // Article.find({}).then(articles => {
@@ -23,7 +62,7 @@ module.exports = {
 
     Article
       .find()
-      .select('title')
+      // .select('title')
       .limit(perPage)
       .skip(perPage * page)
       .sort({ date: 'asc' })
@@ -42,6 +81,9 @@ module.exports = {
   details: (req, res, next) => {
     let articleID = req.params.id
     let query = Article.findById(articleID)
+    Article.findByIdAndUpdate({ _id: articleID }, { $inc: { views: 1 }, new: true })
+    .exec()
+
     Article.find(query, function (err, article) {
       if (err) return next(err)
       query.exec(function (err, get) {
@@ -63,29 +105,86 @@ module.exports = {
         if (articleSelected[0].author === res.locals.currentUser.username || auth.isAdmin(req, res)) {
           res.render('articles/edit', { get: get, articles: articleSelected })
         } else {
-          res.redirect('/articles/details/' + articleID)
+          res.redirect('/articles/review')
           return
         }
       })
     })
   },
   update: (req, res, next) => {
-    let articleID = req.query.id
+    let image
     let updatedArticle = req.body
+    let articleID = req.query.id
+    if (!req.files) {
+      res.render('articles/edit')
+      return
+    }
 
-    Article.findByIdAndUpdate(articleID, {
-      $set: {
-        title: updatedArticle.title,
-        description: updatedArticle.description,
-        content: updatedArticle.content
-      },
-      new: true
-    })
+    image = req.files.image
+    updatedArticle.image = req.files.image.name
+    if (updatedArticle.image !== '') {
+      image.mv('./public/images/' + req.files.image.name, (err) => {
+        if (err) {
+          res.status(500).send(err)
+        } else {
+          Article.findByIdAndUpdate(articleID, {
+            $set: {
+              title: updatedArticle.title,
+              description: updatedArticle.description,
+              content: updatedArticle.content,
+              updatedDate: new Date().toISOString(),
+              image: updatedArticle.image
+            },
+            new: true
+          })
+          .exec()
+          .then(updatedArticle => {
+            res.redirect('/')
+          })
+        }
+      })
+    } else {
+      Article.findByIdAndUpdate(articleID, {
+        $set: {
+          title: updatedArticle.title,
+          description: updatedArticle.description,
+          content: updatedArticle.content,
+          updatedDate: new Date().toISOString()
+        },
+        new: true
+      })
+      .exec()
+      .then(updatedArticle => {
+        res.redirect('/')
+      })
+    }
+  },
+  remove: (req, res) => {
+    let articleID = req.params.id
+
+    Article.findByIdAndUpdate(
+      { _id: articleID },
+      { $set: { deleteMarker: true },
+      new: true }
+    )
     .exec()
-    .then(updatedArticle => {
-      res.redirect('/')
-    })
+    .then(
+      res.redirect('/articles/review')
+    )
+  },
+  restore: (req, res) => {
+    let articleID = req.params.id
+
+    Article.findByIdAndUpdate(
+      { _id: articleID },
+      { $set: { deleteMarker: false },
+      new: true }
+    )
+    .exec()
+    .then(
+      res.redirect('/articles/review')
+    )
   }
 }
-Article.find({ author: 'meme' }).exec().then(art => { console.log(art) })
+Article.find({ deleteMarker: true }).exec().then(art => { console.log(art) })
 

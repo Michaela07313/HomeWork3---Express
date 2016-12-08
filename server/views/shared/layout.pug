@@ -36,7 +36,7 @@ html
                 br
                 h3#welcome-text Welcome #{currentUser.username} !
     if (globalError)
-      h3= globalError
+      h3.errtext= globalError
     #content.container
       block main-content
   script(src='/js/jquery-3.1.1.min.js', type='text/javascript')

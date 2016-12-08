@@ -7,15 +7,19 @@ block main-content
       #container.clear
         section#services.clear
           each article in articles
-            article.one_third
-              h3 #{article.title} 
-              h2 #{article.description}
-              h2 #{moment(article.date).format("YYYY/MM/DD")}
+            article.one_third(class=article.deleteMarker ? 'deleted' : '')
+              h3 #{article.title}
+              img(src='/images/' + article.image, alt='')
+              h2 Description: #{article.description}
+              h2 Created on: #{moment(article.date).format("YYYY/MM/DD")}
               if (article.updatedDate)
-                h2 #{moment(article.updatedDate).format("YYYY/MM/DD")}
+                h2 Last updated on: #{moment(article.updatedDate).format("YYYY/MM/DD")}
               footer.more
-                a(href="/articles/details/" + article._id) Read More »
-            br
+                if (!article.deleteMarker)
+                  a(href="/articles/details/" + article._id) Read More »
+                else
+                  a(href="/articles/restore/" + article._id) Undelete
+              br
         ul.pagination
           - for (var x = 0; x < Math.ceil(pages); x++)
             li(class= (x == page) ? 'active' : '')

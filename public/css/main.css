@@ -18,6 +18,11 @@ body {
     float: none;
 }
 
+.errtext {
+ text-align: center;
+ color: red;
+}
+
 /* ----------------------------------------------article review-------------------------------------*/
 div.wrapper{display:block; margin:0 auto; padding:0; text-align:left;}
 
@@ -32,6 +37,24 @@ div.wrapper{display:block; margin:0 auto; padding:0; text-align:left;}
     border-radius: 2%;
     margin: 0 auto;
 }
+
+.deleted h2, .deleted h3, .deleted img {
+    opacity: 0.5
+}
+
+img {
+    margin:0; 
+    padding:0; 
+    border:none; 
+    line-height:normal; 
+    vertical-align:middle;
+    max-width: 50%;
+    min-width: 30%;
+    height: auto;
+}
+.imgholder, .imgl, .imgr{padding:4px; border:1px solid #D6D6D6; text-align:center;}
+.imgl{float:left; margin:0 15px 15px 0; clear:left;}
+.imgr{float:right; margin:0 0 15px 15px; clear:right;}
 
 #container{padding:30px 0;}
 #container section{display:block; width:100%; margin:0 0 30px 0; padding:0;}

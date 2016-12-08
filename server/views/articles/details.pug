@@ -9,13 +9,17 @@ block main-content
           each art in article
             article.one_third
               h3 #{art.title}
-              h4 #{art.description}
-              h4 #{art.content}
-              h4 #{art.author}
-              if (article.updatedDate)
-                h4 #{moment(art.updatedDate).format("YYYY/MM/DD")}
+              img(src='/images/' + art.image, alt='')
+              p Description: #{art.description}
+              p Content: #{art.content}
+              p Author: #{art.author}
+              if (art.updatedDate)
+                p Last updated on: #{moment(art.updatedDate).format("YYYY/MM/DD")}
               else
-                h4 #{moment(art.date).format("YYYY/MM/DD")}        
+                p Created on: #{moment(art.date).format("YYYY/MM/DD")}
+              p Views: #{art.views}    
               footer.more
                 a(href="/articles/edit/" + art._id) Edit »
+                br
+                a(href="/articles/remove/" + art._id) Delete
                 

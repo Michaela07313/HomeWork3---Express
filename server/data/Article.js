@@ -8,7 +8,10 @@ let articleSchema = mongoose.Schema({
   content: { type: String, required: requiredValidationMessage },
   date: { type: Date, default: Date.now },
   updatedDate: { type: Date },
-  author: { type: String, required: requiredValidationMessage }
+  image: { type: String, requred: false },
+  author: { type: String, required: requiredValidationMessage },
+  views: { type: Number, default: 0 },
+  deleteMarker: { type: Boolean, defailt: false }
 })
 
 let Article = mongoose.model('Article', articleSchema)
