@@ -184,7 +184,28 @@ module.exports = {
     .then(
       res.redirect('/articles/review')
     )
+  },
+  uplaodComment: (req, res, next) => {
+    let insertedComment = req.body
+    let articleID = req.params.id
+    console.log(articleID)
+
+    if (insertedComment.commentText && insertedComment.commentUsername) {
+      let comment = {text: insertedComment.commentText, username: insertedComment.commentUsername, commentDate: new Date().toISOString()}
+      Article.findByIdAndUpdate(articleID, {
+        $push: {
+          comments: comment
+        },
+        new: true
+      })
+      .exec(function (err) {
+        if (err) return next(err)
+        res.redirect('/articles/details/' + articleID)
+      })
+    }
   }
 }
 Article.find({ deleteMarker: true }).exec().then(art => { console.log(art) })
+/* Article.remove()
+.exec() */
 

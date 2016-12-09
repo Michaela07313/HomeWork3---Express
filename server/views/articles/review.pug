@@ -19,7 +19,7 @@ block main-content
                   a(href="/articles/details/" + article._id) Read More »
                 else
                   a(href="/articles/restore/" + article._id) Undelete
-              br
+            br
         ul.pagination
           - for (var x = 0; x < Math.ceil(pages); x++)
             li(class= (x == page) ? 'active' : '')

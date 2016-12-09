@@ -11,7 +11,12 @@ let articleSchema = mongoose.Schema({
   image: { type: String, requred: false },
   author: { type: String, required: requiredValidationMessage },
   views: { type: Number, default: 0 },
-  deleteMarker: { type: Boolean, defailt: false }
+  deleteMarker: { type: Boolean, defailt: false },
+  comments: [{
+    username: { type: String, required: requiredValidationMessage },
+    text: { type: String, required: requiredValidationMessage },
+    commentDate: { type: Date, default: Date.now }
+  }]
 })
 
 let Article = mongoose.model('Article', articleSchema)

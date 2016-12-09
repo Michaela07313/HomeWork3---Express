@@ -22,4 +22,22 @@ block main-content
                 a(href="/articles/edit/" + art._id) Edit »
                 br
                 a(href="/articles/remove/" + art._id) Delete
-                
+              br
+              form.formForComments(method="post" action="/articles/details/" + art._id + "/uplaodComment")
+                label(for="commentText") Write your comment here
+                br
+                input(type="text" name="commentText" id="commentText" value=commentText)
+                br
+                label(for="commentUsername") Username
+                br
+                input(type="text" name="commentUsername" id="commentUsername" value=commentUsername)
+                br
+                br
+                input(type="submit" value="Publish your comment")
+              br
+              if art.comments.length > 0
+                each comment in art.comments
+                  div.comment
+                    h5 Comment: #{comment.text}
+                    h5 Posted by: #{comment.username}
+                  hr

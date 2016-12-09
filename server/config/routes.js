@@ -41,6 +41,10 @@ module.exports = (app) => {
 
   app.post('/articles/update', auth.isAuthenticated, controllers.articles.update)
 
+  app.post('/articles/details/:id/uplaodComment', auth.isAuthenticated, controllers.articles.uplaodComment)
+
+// app.get('/articles/comment', auth.isAuthenticated, controllers.articles.comment)
+
 
 
 
