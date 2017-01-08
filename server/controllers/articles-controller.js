@@ -188,9 +188,9 @@ module.exports = {
   uplaodComment: (req, res, next) => {
     let insertedComment = req.body
     let articleID = req.params.id
-    console.log(articleID)
-
-    if (insertedComment.commentText && insertedComment.commentUsername) {
+    console.log(insertedComment.commentText.length)
+    console.log(insertedComment.commentUsername)
+    if (insertedComment.commentText.length > 0 && insertedComment.commentUsername.length > 0) {
       let comment = {text: insertedComment.commentText, username: insertedComment.commentUsername, commentDate: new Date().toISOString()}
       Article.findByIdAndUpdate(articleID, {
         $push: {
@@ -202,6 +202,9 @@ module.exports = {
         if (err) return next(err)
         res.redirect('/articles/details/' + articleID)
       })
+    } else {
+      insertedComment.globalError = 'Please enter all fields.'
+      res.render('articles/details')
     }
   }
 }

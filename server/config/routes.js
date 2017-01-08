@@ -25,8 +25,6 @@ module.exports = (app) => {
 
   app.get('/articles/create', auth.isAuthenticated, controllers.articles.create)
 
-  // app.post('/articles/upload', controllers.articles.upload)
-
   app.post('/articles/imgupload', controllers.articles.imgupload)
 
   app.get('/articles/review', controllers.articles.review)
@@ -43,7 +41,6 @@ module.exports = (app) => {
 
   app.post('/articles/details/:id/uplaodComment', auth.isAuthenticated, controllers.articles.uplaodComment)
 
-// app.get('/articles/comment', auth.isAuthenticated, controllers.articles.comment)
 
 
 
